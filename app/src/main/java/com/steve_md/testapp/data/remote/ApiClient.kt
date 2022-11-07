@@ -6,6 +6,10 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+/*
+*  API Client
+* */
+
 object ApiClient {
     // Sending data through Http
     var mHttpLoggingInterceptor = HttpLoggingInterceptor()
