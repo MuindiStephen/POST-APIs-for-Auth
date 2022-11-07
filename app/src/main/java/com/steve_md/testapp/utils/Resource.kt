@@ -1,5 +1,7 @@
 package com.steve_md.testapp.utils
 
+
+// Wrapping the API responses
 sealed class Resource <out T>{
     data class Success<out T>(val data: T? = null) : Resource<T>()
     data class Loading(val nothing: Nothing? = null) : Resource<Nothing>()

@@ -1,6 +1,5 @@
 package com.steve_md.testapp.data.repositories
 
-import com.steve_md.testapp.data.remote.ApiClient
 import com.steve_md.testapp.data.remote.UserApiService
 import com.steve_md.testapp.data.requests.LoginRequest
 import com.steve_md.testapp.data.requests.RegisterRequest
@@ -11,8 +10,10 @@ import retrofit2.Response
 import java.io.IOException
 
 class AuthUserRepository (
-    // private val apiService: UserApiService,
-        ){
+        // private val apiService: UserApiService)
+)
+
+{
 
     // User Login
     suspend fun userLogin(loginRequest: LoginRequest) : Resource<Response<LoginResponse>>{
