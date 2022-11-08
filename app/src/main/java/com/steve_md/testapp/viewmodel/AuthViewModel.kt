@@ -1,14 +1,13 @@
 package com.steve_md.testapp.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.steve_md.testapp.data.repositories.AuthUserRepository
+import com.steve_md.testapp.data.repositories.AuthUserRepositoryImpl
 import com.steve_md.testapp.data.responses.LoginResponse
 import com.steve_md.testapp.data.responses.RegisterResponse
 import com.steve_md.testapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val repository: AuthUserRepository
+    private val repository: AuthUserRepositoryImpl
 )  : ViewModel(){
 
     /**
@@ -31,19 +30,34 @@ class AuthViewModel @Inject constructor(
 
     // use kotlin flows instead of live data
 
-    // Login
-    private val loginResult = MutableSharedFlow<Resource<LoginResponse>>()
-    val _loginResult:SharedFlow<Resource<LoginResponse>> = loginResult.asSharedFlow()
+    // Login Observable
+    private val _loginResult = MutableSharedFlow<Resource<LoginResponse>>()
 
-    // Register
-    private val registerResult = MutableSharedFlow<Resource<RegisterResponse>>()
-    val _registerResult:SharedFlow<Resource<RegisterResponse>> = registerResult.asSharedFlow()
 
-    fun loginUser() = viewModelScope.launch {
-        return@launch
-        repository
+//    private val _emailStatus = MutableSharedFlow<String>()
+//    val emailStatus:SharedFlow<String> = _emailStatus.asSharedFlow()
+//
+//    private val _passwordStatus = MutableSharedFlow<String>()
+//    val passwordStatus:SharedFlow<String> =_passwordStatus.asSharedFlow()
+//
+////    fun setEmail(value: String){
+////        _emailStatus.asSharedFlow()
+////    }
+////
+////     fun setPassword(value: String) {
+////        _passwordStatus. asSharedFlow()
+////     }
+
+
+
+    fun loginUser(email:  String, password:String) = viewModelScope.launch(Dispatchers.Main) {
+       // _loginResult.emit("")
     }
 
+
+    // Register Observable
+    private val registerResult = MutableSharedFlow<Resource<RegisterResponse>>()
+    val _registerResult:SharedFlow<Resource<RegisterResponse>> = registerResult.asSharedFlow()
 
 
 }

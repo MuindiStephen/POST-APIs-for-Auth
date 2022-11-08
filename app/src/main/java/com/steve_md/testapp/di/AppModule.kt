@@ -15,6 +15,6 @@ object AppModule {
     @Provides
 
     fun providesUserAuthRepository(){
-        return
+
     }
 }
