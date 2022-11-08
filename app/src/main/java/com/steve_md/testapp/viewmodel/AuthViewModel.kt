@@ -3,6 +3,8 @@ package com.steve_md.testapp.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.steve_md.testapp.data.repositories.AuthUserRepositoryImpl
+import com.steve_md.testapp.data.requests.LoginRequest
+import com.steve_md.testapp.data.requests.RegisterRequest
 import com.steve_md.testapp.data.responses.LoginResponse
 import com.steve_md.testapp.data.responses.RegisterResponse
 import com.steve_md.testapp.utils.Resource
@@ -22,7 +24,7 @@ class AuthViewModel @Inject constructor(
 
     /**
      * view model will communicate with repository
-     * repository sends and gets data from the web server
+     * repository sends and gets data from the web server api
      * and then use the data to update the UI
      *
      * **/
@@ -30,8 +32,6 @@ class AuthViewModel @Inject constructor(
 
     // use kotlin flows instead of live data
 
-    // Login Observable
-    private val _loginResult = MutableSharedFlow<Resource<LoginResponse>>()
 
 
 //    private val _emailStatus = MutableSharedFlow<String>()
@@ -48,16 +48,26 @@ class AuthViewModel @Inject constructor(
 ////        _passwordStatus. asSharedFlow()
 ////     }
 
-
-
-    fun loginUser(email:  String, password:String) = viewModelScope.launch(Dispatchers.Main) {
-       // _loginResult.emit("")
-    }
-
+    // Login Observable
+    private val _loginResult = MutableSharedFlow<Resource<LoginResponse>>()
+    val loginResult:SharedFlow<Resource<LoginResponse>>
+    get() = _loginResult
 
     // Register Observable
-    private val registerResult = MutableSharedFlow<Resource<RegisterResponse>>()
-    val _registerResult:SharedFlow<Resource<RegisterResponse>> = registerResult.asSharedFlow()
+    private val _registerResult = MutableSharedFlow<Resource<RegisterResponse>>()
+    val registerResult:SharedFlow<Resource<RegisterResponse>>
+    get() = _registerResult
+
+
+    fun loginUser(loginRequest: LoginRequest) = viewModelScope.launch(Dispatchers.Main) {
+        _loginResult.emit(repository.userLogin(loginRequest = loginRequest))
+    }
+
+    fun registerUser(registerRequest: RegisterRequest) =
+        viewModelScope.launch {
+            _registerResult.emit(repository.userRegister(registerRequest = registerRequest))
+        }
+
 
 
 }
