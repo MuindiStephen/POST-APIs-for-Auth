@@ -59,13 +59,17 @@ class AuthViewModel @Inject constructor(
     get() = _registerResult
 
 
+    // Login User
     fun loginUser(loginRequest: LoginRequest) = viewModelScope.launch(Dispatchers.Main) {
-        _loginResult.emit(repository.userLogin(loginRequest = loginRequest))
+        val result = repository.userLogin(loginRequest = loginRequest)
+        _loginResult.emit(result)
     }
 
+    // Register User
     fun registerUser(registerRequest: RegisterRequest) =
         viewModelScope.launch {
-            _registerResult.emit(repository.userRegister(registerRequest = registerRequest))
+           val result2 = repository.userRegister(registerRequest = registerRequest)
+            _registerResult.emit(result2)
         }
 
 

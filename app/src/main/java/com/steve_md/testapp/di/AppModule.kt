@@ -18,9 +18,7 @@ object AppModule {
     // Hilt for Repository
     @Singleton
     @Provides
-    fun providesUserAuthRepository(userApiService: UserApiService) : AuthUserRepositoryImpl{
-         return AuthUserRepositoryImpl()
-    }
+    fun providesUserAuthRepository(userApiService: UserApiService) : AuthUserRepository = AuthUserRepositoryImpl()
 
 
     // Hilt for User Api Service
