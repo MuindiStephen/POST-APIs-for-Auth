@@ -18,25 +18,26 @@ class AuthUserRepositoryImpl(
 
 
     // Login
-    override suspend fun userLogin(email: String, password: String) = safeApiCall{
-         apiService.loginUser(loginRequest = LoginRequest(email, password))
+    override suspend fun userLogin(loginRequest: LoginRequest) = safeApiCall{
+         apiService.loginUser(loginRequest)
     }
 
 
 
     // Register or Sign Up
     override suspend fun userRegister(
-        email: String,
-        name: String,
-        password: String
+//        email: String,
+//        name: String,
+//        password: String
+    registerRequest: RegisterRequest
     ) = safeApiCall {
-         val  registerUserRequest = RegisterRequest(
-             email = email,
-             name = name,
-             password = password
-         )
+//         val  registerUserRequest = RegisterRequest(
+//             email = email,
+//             name = name,
+//             password = password
+//         )
 
-        apiService.registerUser(registerUserRequest)
+        apiService.registerUser(registerRequest)
     }
 
 
@@ -80,4 +81,3 @@ class AuthUserRepositoryImpl(
 //                    " and try again...")
 //        }
 //    }
-}
