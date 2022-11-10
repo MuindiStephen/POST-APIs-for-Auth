@@ -8,7 +8,7 @@ import com.steve_md.testapp.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 
-@HiltViewModel
+
 class SplashViewModel: ViewModel () {
     // using livedata observable
     private val _value: MutableLiveData<Boolean> = MutableLiveData<Boolean>()

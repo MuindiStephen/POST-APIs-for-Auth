@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_splashScreenFragment_to_registerAccountFragment"
             app:destination="@id/registerAccountFragment" />
+        <action
+            android:id="@+id/action_splashScreenFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginAccountFragment"

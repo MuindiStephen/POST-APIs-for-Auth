@@ -1,5 +1,6 @@
 package com.steve_md.testapp.viewmodel
 
+import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.steve_md.testapp.data.repositories.AuthUserRepositoryImpl
@@ -13,13 +14,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-@HiltViewModel
-class AuthViewModel @Inject constructor(
-    private val repository: AuthUserRepositoryImpl
+
+class AuthViewModel (
+    private val authUserRepository: AuthUserRepositoryImpl
 )  : ViewModel(){
 
     /**
@@ -32,21 +34,8 @@ class AuthViewModel @Inject constructor(
 
     // use kotlin flows instead of live data
 
-
-
-//    private val _emailStatus = MutableSharedFlow<String>()
-//    val emailStatus:SharedFlow<String> = _emailStatus.asSharedFlow()
-//
-//    private val _passwordStatus = MutableSharedFlow<String>()
-//    val passwordStatus:SharedFlow<String> =_passwordStatus.asSharedFlow()
-//
-////    fun setEmail(value: String){
-////        _emailStatus.asSharedFlow()
-////    }
-////
-////     fun setPassword(value: String) {
-////        _passwordStatus. asSharedFlow()
-////     }
+    /*
+    * Method 1*/
 
     // Login Observable
     private val _loginResult = MutableSharedFlow<Resource<LoginResponse>>()
@@ -60,17 +49,36 @@ class AuthViewModel @Inject constructor(
 
 
     // Login User
-    fun loginUser(loginRequest: LoginRequest) = viewModelScope.launch(Dispatchers.Main) {
-        val result = repository.userLogin(loginRequest = loginRequest)
-        _loginResult.emit(result)
+    fun loginUser(email: String, password: String) = viewModelScope.launch {
+        val lResult = authUserRepository.userLogin(email, password)
+        _loginResult.emit(lResult)
     }
 
     // Register User
-    fun registerUser(registerRequest: RegisterRequest) =
-        viewModelScope.launch {
-           val result2 = repository.userRegister(registerRequest = registerRequest)
-            _registerResult.emit(result2)
+    fun registerUser(email: String, name:String, password: String) = viewModelScope.launch {
+          val rResult = authUserRepository.userRegister(
+              email = email,
+              name = name,
+              password = password
+          )
+        _registerResult.emit(rResult)
         }
+
+
+  /*
+  Method2**/
+/*
+    fun postToLogin(loginRequest: LoginRequest) = flow {
+        emit(Resource.Loading)
+        try {
+            emit(Resource.Success(loginRequest))
+        } catch (e: Exception) {
+            e.printStackTrace()  // throw the Exception
+            emit(e.localizedMessage) // message type of the exception
+        }
+    }
+    */
+
 
 
 

@@ -19,18 +19,14 @@ import retrofit2.http.POST
 
 interface UserApiService {
 
-    // Register
-    @FormUrlEncoded
+    // Register or SignUp
     @POST(REGISTER_END_POINT)
     suspend fun registerUser(
-        registerRequest: RegisterRequest    // To directly control the request
-//        @Field("name") fullNames:String?,
-//        @Field("id") ID:String?,
-//        @Field("pass") email:String?,
-
+        @Body registerRequest: RegisterRequest    // To directly control the request
      ) : RegisterResponse
 
-    // Login
+
+    // Login or Sign In
     @POST(LOGIN_END_POINT)
     suspend fun loginUser(
         @Body loginRequest: LoginRequest         // To directly control the request body
