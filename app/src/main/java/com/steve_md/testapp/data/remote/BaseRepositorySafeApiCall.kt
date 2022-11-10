@@ -15,7 +15,7 @@ import retrofit2.HttpException
 abstract class BaseRepositorySafeApiCall() {
 
     // use of coroutines for asynchronous programming -> without non blocking execution
-    open suspend fun <T> safeApiCall(apiCall: suspend () -> T): Resource<T> {
+     suspend fun <T> safeApiCall(apiCall: suspend () -> T): Resource<T> {
 
         /*
          * try and catch block functions with return body
@@ -24,16 +24,17 @@ abstract class BaseRepositorySafeApiCall() {
 
         //  Execute all the Api calls asynchronously by use of coroutines
         return withContext(Dispatchers.IO) {
-            Resource.Loading()
+
             try {
-                Resource.Success(apiCall.invoke())
+                val response = apiCall.invoke()
+                Resource.Success(response)
             } catch (throwable: Throwable) {
                 when (throwable){
                     is HttpException -> {
-                        Resource.Error(throwable.response()?.errorBody().toString())
+                        Resource.Error(false, throwable.code(), throwable.response()?.errorBody())
                     }
                     else -> {
-                        Resource.Error(throwable.localizedMessage)
+                        Resource.Error(true,null, null)
                     }
                 }
             }
