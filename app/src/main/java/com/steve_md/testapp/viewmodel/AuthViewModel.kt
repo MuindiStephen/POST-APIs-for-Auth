@@ -50,34 +50,29 @@ class AuthViewModel (
 
     // Login User
     fun loginUser(email: String, password: String) = viewModelScope.launch {
-        val lResult = authUserRepository.userLogin(email, password)
+        val lResult = authUserRepository.userLogin(loginRequest = LoginRequest(email, password))
         _loginResult.emit(lResult)
     }
 
     // Register User
     fun registerUser(email: String, name:String, password: String) = viewModelScope.launch {
-          val rResult = authUserRepository.userRegister(
-              email = email,
-              name = name,
-              password = password
-          )
-        _registerResult.emit(rResult)
+        _registerResult.emit(authUserRepository.userRegister(registerRequest = RegisterRequest(email, name, password)))
         }
 
 
   /*
   Method2**/
-/*
-    fun postToLogin(loginRequest: LoginRequest) = flow {
-        emit(Resource.Loading)
-        try {
-            emit(Resource.Success(loginRequest))
-        } catch (e: Exception) {
-            e.printStackTrace()  // throw the Exception
-            emit(e.localizedMessage) // message type of the exception
-        }
-    }
-    */
+//
+//    fun postToLogin(loginRequest: LoginRequest) = flow {
+//        emit(Resource.Loading)
+//        try {
+//            emit(Resource.Success(loginRequest))
+//        } catch (e: Exception) {
+//            e.printStackTrace()  // throw the Exception
+//            emit(e.localizedMessage) // message type of the exception
+//        }
+//    }
+
 
 
 

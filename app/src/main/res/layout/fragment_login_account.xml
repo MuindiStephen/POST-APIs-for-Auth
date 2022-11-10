@@ -35,7 +35,7 @@
         app:layout_constraintWidth_percent="0.9">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtInput_email"
+            android:id="@+id/inputEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress" />
@@ -55,7 +55,7 @@
         app:layout_constraintWidth_percent="0.9">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txt_pass"
+            android:id="@+id/inputPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -63,7 +63,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btn_login"
+        android:id="@+id/buttonLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Login"
@@ -102,14 +102,26 @@
         android:id="@+id/dontHaveAccountSignUpTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Don't Have account? Sign up."
-        android:textSize="18sp"
-        android:textColor="@color/my_green"
         android:layout_marginTop="30dp"
+        android:text="Don't Have account? Sign up."
+        android:textColor="@color/my_green"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btn_login" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone"
+        android:indeterminateTint="@color/my_green"
+        app:layout_constraintEnd_toEndOf="@+id/buttonLogin"
+        app:layout_constraintStart_toStartOf="@+id/buttonLogin"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

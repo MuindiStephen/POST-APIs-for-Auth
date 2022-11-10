@@ -18,11 +18,9 @@ import com.steve_md.testapp.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
-@SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
 
     private lateinit var binding: FragmentSplashScreenBinding
-   // private val viewModel: SplashViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,11 +36,12 @@ class SplashScreenFragment : Fragment() {
 //
 //       viewModel.setValue()
 
-            Handler().postDelayed(
-                {
-                findNavController().navigate(R.id.action_splashScreenFragment_to_registerAccountFragment)
-        },3000)
 
+        Handler().postDelayed(
+            {
+                findNavController().navigate(R.id.action_splashScreenFragment_to_loginAccountFragment)
+            }, 2000
+        )
 
         return binding.root
     }
