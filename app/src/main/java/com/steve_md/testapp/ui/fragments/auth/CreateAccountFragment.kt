@@ -23,7 +23,7 @@ class CreateAccountFragment : Fragment() {
     private lateinit var binding: FragmentCreateAccountBinding
 
     // View Model
-    //private val registerViewModel: AuthViewModel by viewModels()
+//     private val registerViewModel : AuthViewModel by viewModels()
     private val registerViewModel = activity?.let {
         ViewModelProvider(it)
 
@@ -106,6 +106,7 @@ class CreateAccountFragment : Fragment() {
                     email = userEmail,
                     name = userName,
                     password = userPassword
+                //registerRequest = (userName, userEmail, userPassword)
                 )
 
                 binding.root.hideKeyboard()

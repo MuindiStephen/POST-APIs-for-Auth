@@ -12,7 +12,7 @@ package com.steve_md.testapp.utils
 import okhttp3.ResponseBody
 
 //Handle API Success and Error responses
-sealed class Resource<out T> {
+sealed class Resource<out T> (){
     data class Success<out T>(val value: T) : Resource<T>()
     data class Error(
         val isNetworkError: Boolean,

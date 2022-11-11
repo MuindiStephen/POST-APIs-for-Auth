@@ -37,7 +37,7 @@ class LoginAccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentLoginAccountBinding.inflate(inflater, container, false)
+        binding = FragmentLoginAccountBinding.inflate(layoutInflater, container, false)
 
 
         binding.dontHaveAccountSignUpTextView.setOnClickListener {
