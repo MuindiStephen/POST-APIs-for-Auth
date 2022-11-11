@@ -6,9 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.*
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.steve_md.testapp.R
@@ -25,7 +23,12 @@ class CreateAccountFragment : Fragment() {
     private lateinit var binding: FragmentCreateAccountBinding
 
     // View Model
-    private val registerViewModel: AuthViewModel by viewModels()
+    //private val registerViewModel: AuthViewModel by viewModels()
+    private val registerViewModel = activity?.let {
+        ViewModelProvider(it)
+
+    }?.get(AuthViewModel::class.java)
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,7 +45,7 @@ class CreateAccountFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                registerViewModel.registerResult.collect {
+                registerViewModel?.registerResult?.collect {
                     when (it) {
                         is Resource.Success -> {
                             toast("Registered Successfully, Please Login")
@@ -53,9 +56,9 @@ class CreateAccountFragment : Fragment() {
                         is Resource.Error -> {
                             binding.progressBar.visibility = View.GONE
                             binding.buttonSignUp.isEnabled = true
-//                             binding.root.handleApiError(it, action = {
-//                                 binding.btnSignUp.performClick()
-//                             })
+            //                             binding.root.handleApiError(it, action = {
+            //                                 binding.btnSignUp.performClick()
+            //                             })
                             toast("An internal error occurred! Server is unreachable")
                         }
 
@@ -99,7 +102,7 @@ class CreateAccountFragment : Fragment() {
             }
 
             else {
-                registerViewModel.registerUser(
+                registerViewModel?.registerUser(
                     email = userEmail,
                     name = userName,
                     password = userPassword

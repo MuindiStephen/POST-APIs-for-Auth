@@ -57,21 +57,21 @@ class AuthViewModel (
     // Register User
     fun registerUser(email: String, name:String, password: String) = viewModelScope.launch {
         _registerResult.emit(authUserRepository.userRegister(registerRequest = RegisterRequest(email, name, password)))
-        }
+    }
 
 
   /*
   Method2**/
-//
-//    fun postToLogin(loginRequest: LoginRequest) = flow {
-//        emit(Resource.Loading)
-//        try {
-//            emit(Resource.Success(loginRequest))
-//        } catch (e: Exception) {
-//            e.printStackTrace()  // throw the Exception
-//            emit(e.localizedMessage) // message type of the exception
-//        }
-//    }
+
+    fun postToLogin(loginRequest: LoginRequest) = flow {
+        emit(Resource.Loading)
+        try {
+            emit(Resource.Success(loginRequest))
+        } catch (e: Exception) {
+            e.printStackTrace()  // throw the Exception
+            emit(e.localizedMessage) // message type of the exception
+        }
+    }
 
 
 
