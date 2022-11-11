@@ -1,4 +1,8 @@
-# POST-APIs-for-Auth
+# Not working : Needs Fixing. Please 🤔☺️☺️☺️
+
+
+
+## POST-APIs-for-Auth
 ## Register & Login using POST APIs
 
 - POST Api for registration : http://restapi.adequateshop.com/api/authaccount/login
