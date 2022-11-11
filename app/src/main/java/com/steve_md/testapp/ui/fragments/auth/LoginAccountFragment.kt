@@ -9,9 +9,7 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.*
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.steve_md.testapp.R
@@ -28,14 +26,18 @@ import kotlinx.coroutines.launch
 class LoginAccountFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginAccountBinding
-    private val loginViewModel: AuthViewModel by viewModels()
+
+    //private val loginViewModel: AuthViewModel by viewModels()
+    private val loginViewModel = activity?.let {
+        ViewModelProvider(it)
+    }?.get(AuthViewModel::class.java)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentLoginAccountBinding.inflate(inflater, container, false)
+        binding = FragmentLoginAccountBinding.inflate(layoutInflater, container, false)
 
 
         binding.dontHaveAccountSignUpTextView.setOnClickListener {
@@ -55,8 +57,8 @@ class LoginAccountFragment : Fragment() {
             }
             else {
             lifecycleScope.launch {
-                loginViewModel.postToLogin(loginRequest)
-                    .collect {
+                loginViewModel?.postToLogin(loginRequest)
+                    ?.collect {
                         when (it) {
                             is Resource.Success<*> -> {
                                 toast("Successful Login")

@@ -1,7 +1,5 @@
 package com.steve_md.testapp.data.remote
 
-import com.steve_md.testapp.data.requests.LoginRequest
-import com.steve_md.testapp.data.responses.LoginResponse
 import com.steve_md.testapp.utils.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -23,15 +21,18 @@ abstract class BaseRepositorySafeApiCall() {
 
 
         //  Execute all the Api calls asynchronously by use of coroutines
+
+        //  Makes it a suspending block
         return withContext(Dispatchers.IO) {
 
             try {
-                val response = apiCall.invoke()
-                Resource.Success(response)
-            } catch (throwable: Throwable) {
-                when (throwable){
+//                val response = apiCall.invoke()
+//                Resource.Success(response)
+                Resource.Success(apiCall.invoke())
+            } catch (e: Throwable) {
+                when (e){
                     is HttpException -> {
-                        Resource.Error(false, throwable.code(), throwable.response()?.errorBody())
+                        Resource.Error(false, e.code(), e.response()?.errorBody())
                     }
                     else -> {
                         Resource.Error(true,null, null)

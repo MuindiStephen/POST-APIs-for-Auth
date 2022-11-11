@@ -4,10 +4,6 @@ import com.steve_md.testapp.data.remote.BaseRepositorySafeApiCall
 import com.steve_md.testapp.data.remote.UserApiService
 import com.steve_md.testapp.data.requests.LoginRequest
 import com.steve_md.testapp.data.requests.RegisterRequest
-import com.steve_md.testapp.data.responses.LoginResponse
-import com.steve_md.testapp.data.responses.RegisterResponse
-import com.steve_md.testapp.utils.Resource
-import java.io.IOException
 
 
 class AuthUserRepositoryImpl(
@@ -18,7 +14,7 @@ class AuthUserRepositoryImpl(
 
 
     // Login
-    override suspend fun userLogin(loginRequest: LoginRequest) = safeApiCall{
+    override suspend fun userLogin(loginRequest: LoginRequest) = safeApiCall {
          apiService.loginUser(loginRequest)
     }
 
