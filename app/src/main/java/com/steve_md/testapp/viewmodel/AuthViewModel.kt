@@ -1,28 +1,27 @@
 package com.steve_md.testapp.viewmodel
 
-import android.provider.ContactsContract.CommonDataKinds.Email
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.steve_md.testapp.data.remote.UserApiService
+import com.steve_md.testapp.data.repositories.AuthUserRepository
 import com.steve_md.testapp.data.repositories.AuthUserRepositoryImpl
 import com.steve_md.testapp.data.requests.LoginRequest
 import com.steve_md.testapp.data.requests.RegisterRequest
 import com.steve_md.testapp.data.responses.LoginResponse
 import com.steve_md.testapp.data.responses.RegisterResponse
 import com.steve_md.testapp.utils.Resource
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
+class AuthViewModel : ViewModel() {
 
-class AuthViewModel (
-    private val authUserRepository: AuthUserRepositoryImpl
-)  : ViewModel(){
+    /**
+     * Since we aren't using dependency injection the only thing that can be passed
+     * in the viewModel constructor which will not throw any error is savedStateHandle or application
+     */
+    private val authUserRepository: AuthUserRepository =
+        AuthUserRepositoryImpl(UserApiService.getApiClient())
 
     /**
      * view model will communicate with repository
@@ -36,16 +35,17 @@ class AuthViewModel (
 
     /*
     * Method 1*/
-
+    /**
+     * This is changed to a mutable state flow, since we're not sharing it
+     */
     // Login Observable
-    private val _loginResult = MutableSharedFlow<Resource<LoginResponse>>()
-    val loginResult:SharedFlow<Resource<LoginResponse>>
-    get() = _loginResult
+    private val _loginResult = MutableStateFlow<Resource<LoginResponse>?>(null)
+    val loginResult: StateFlow<Resource<LoginResponse>?> get() = _loginResult
 
     // Register Observable
     private val _registerResult = MutableSharedFlow<Resource<RegisterResponse>>()
-    val registerResult:SharedFlow<Resource<RegisterResponse>>
-    get() = _registerResult
+    val registerResult: SharedFlow<Resource<RegisterResponse>>
+        get() = _registerResult
 
 
     // Login User
@@ -55,13 +55,21 @@ class AuthViewModel (
     }
 
     // Register User
-    fun registerUser(email: String, name:String, password: String) = viewModelScope.launch {
-        _registerResult.emit(authUserRepository.userRegister(registerRequest = RegisterRequest(email, name, password)))
+    fun registerUser(email: String, name: String, password: String) = viewModelScope.launch {
+        _registerResult.emit(
+            authUserRepository.userRegister(
+                registerRequest = RegisterRequest(
+                    email,
+                    name,
+                    password
+                )
+            )
+        )
     }
 
 
-  /*
-  Method2**/
+    /*
+    Method2**/
 
     fun postToLogin(loginRequest: LoginRequest) = flow {
         emit(Resource.Loading)
@@ -73,8 +81,12 @@ class AuthViewModel (
         }
     }
 
+    /**
+     * MAMBO's Implementation
+     */
 
-
-
+    fun login(email: String, password: String) = viewModelScope.launch {
+        _loginResult.value = authUserRepository.userLogin(LoginRequest(email = email, password = password))
+    }
 
 }
