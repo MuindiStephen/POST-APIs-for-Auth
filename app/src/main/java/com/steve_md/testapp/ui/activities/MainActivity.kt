@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity(){
         setContentView(R.layout.activity_main)
 
         // Hiding the Actionbar and toolbar
-       //supportActionBar?.hide()
+//       supportActionBar?.hide()
+
 
 
         val navHostFragment  = supportFragmentManager
