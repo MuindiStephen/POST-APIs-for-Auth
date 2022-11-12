@@ -62,8 +62,20 @@ class LoginAccountFragment : Fragment() {
                         toast("Couldn't log in")
                     }
                     is Resource.Success -> {
-                        toast("Successfully Logged In")
-                        navigateToHome()
+                        val userId = it.value.data
+
+                        // check whether user data is null or available in the backend db api
+                        it.value.data.let {
+
+                            // if available then login the user successfully.
+                            if (it !=null) {
+                                toast("Successfully Logged In")
+                                navigateToHome()
+                            } else {
+                                toast("Account Doesn't exist")
+                            }
+                        }
+
                     }
                     null -> {}
                 }

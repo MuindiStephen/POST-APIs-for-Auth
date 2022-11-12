@@ -7,7 +7,7 @@
     tools:context=".ui.fragments.auth.LoginAccountFragment">
 
     <ProgressBar
-        android:id="@+id/prgbar"
+        android:id="@+id/loginProgressBar"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:indeterminateTint="@color/my_green"
@@ -105,7 +105,7 @@
         android:layout_marginTop="30dp"
         android:text="Don't Have account? Sign up."
         android:textColor="@color/my_green"
-        android:textSize="18sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

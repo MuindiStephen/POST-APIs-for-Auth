@@ -15,27 +15,31 @@ import com.steve_md.testapp.utils.Resource
 import com.steve_md.testapp.utils.hideKeyboard
 import com.steve_md.testapp.utils.toast
 import com.steve_md.testapp.viewmodel.AuthViewModel
+import kotlinx.coroutines.flow.collectLatest
 
 
 class CreateAccountFragment : Fragment() {
 
-    // viewBinding
-    private lateinit var binding: FragmentCreateAccountBinding
+
+    private var _binding: FragmentCreateAccountBinding? = null
+    private val binding get() = _binding!!
 
     // View Model
-//     private val registerViewModel : AuthViewModel by viewModels()
-    private val registerViewModel = activity?.let {
-        ViewModelProvider(it)
+    private val registerViewModel: AuthViewModel by viewModels()
 
-    }?.get(AuthViewModel::class.java)
+//    private val registerViewModel = activity?.let {
+//        ViewModelProvider(it)
+//
+//    }?.get(AuthViewModel::class.java)
 
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        binding = FragmentCreateAccountBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentCreateAccountBinding.inflate(layoutInflater, container, false)
 
         return binding.root
     }
@@ -43,81 +47,57 @@ class CreateAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                registerViewModel?.registerResult?.collect {
-                    when (it) {
-                        is Resource.Success -> {
-                            toast("Registered Successfully, Please Login")
-                            binding.progressBar.visibility = View.GONE
-                            Navigation.findNavController(requireView()).navigate(R.id.action_createAccountFragment_to_loginAccountFragment)
-                        }
 
-                        is Resource.Error -> {
-                            binding.progressBar.visibility = View.GONE
-                            binding.buttonSignUp.isEnabled = true
-            //                             binding.root.handleApiError(it, action = {
-            //                                 binding.btnSignUp.performClick()
-            //                             })
-                            toast("An internal error occurred! Server is unreachable")
-                        }
+        binding.alreadyHaveAccountTextView.setOnClickListener {
+            navigateToLoginAccount()
+        }
 
-                        is Resource.Loading -> {
-                            binding.progressBar.visibility = View.VISIBLE
-                            binding.buttonSignUp.isEnabled = false
-                        }
-                        // else -> {}
+        binding.buttonSignUp.setOnClickListener {
+            if (isValidRegistrationDetails()) registerUser()
+            else toast("Unable to register")
+        }
 
+        lifecycleScope.launchWhenResumed {
+            registerViewModel.registerResult.collectLatest {
+                when (it) {
+                    is Resource.Success -> {
+                        binding.progressBar.visibility = View.INVISIBLE
+                        toast("Registered Successfully, Please Login")
+                        navigateToLoginAccount()
                     }
+
+                    is Resource.Error -> {
+                        binding.progressBar.visibility = View.INVISIBLE
+                        toast("Couldn't register account!")
+                    }
+
+                    is Resource.Loading -> {
+                        binding.progressBar.visibility = View.VISIBLE
+                    }
+                    null -> {}
+
                 }
             }
         }
 
-        binding.progressBar.visibility = View.GONE
-
-        binding.buttonSignUp.setOnClickListener {
-            binding.progressBar.visibility = View.VISIBLE
-            binding.buttonSignUp.isEnabled = false
-
-            val userName = binding.enterYourName.text?.trim().toString()
-            val userEmail = binding.enterYourEmail.text?.trim().toString()
-            val userPassword = binding.enterYourPassword.text?.trim().toString()
-
-            if (binding.enterYourName.text.isNullOrEmpty()
-                || binding.enterYourEmail.text.isNullOrEmpty()
-                || binding.enterYourPassword.text.isNullOrEmpty() )
-            {
-
-                binding.enterYourName.error = "Please enter your Name"
-                binding.progressBar.visibility = View.GONE
-                binding.buttonSignUp.isEnabled = true
-                return@setOnClickListener
-            }
-
-            else if (binding.enterYourPassword.text!!.length < 8) {
-                binding.enterYourName.error = "Password too short "
-                binding.progressBar.visibility = View.GONE
-                binding.enterYourPassword.isEnabled = true
-                return@setOnClickListener
-            }
-
-            else {
-                registerViewModel?.registerUser(
-                    email = userEmail,
-                    name = userName,
-                    password = userPassword
-                //registerRequest = (userName, userEmail, userPassword)
-                )
-
-                binding.root.hideKeyboard()
-            }
-
-        }
-
-        binding.alreadyHaveAccountTextView.setOnClickListener {
-           findNavController().navigate(R.id.action_createAccountFragment_to_loginAccountFragment)
-        }
 
     }
 
+    private fun registerUser() {
+        registerViewModel.register(binding.enterEmail.text.toString(),binding.enterName.text.toString(), binding.enterPassword.text.toString())
+    }
+
+    private fun isValidRegistrationDetails(): Boolean {
+       return binding.enterEmail.text.isNullOrEmpty().not().also {
+           if (!it) binding.enterYourEmail.error = "Invalid email"
+       } && binding.enterName.text.isNullOrEmpty().not().also {
+           if (!it) binding.enterYourName.error = "Invalid Name"
+       } && binding.enterPassword.text.isNullOrEmpty().not().also {
+              if (!it) binding.enterYourPassword.error = "Invalid Password"
+       }
+    }
+
+    private fun navigateToLoginAccount() {
+        findNavController().navigate(R.id.action_createAccountFragment_to_loginAccountFragment)
+    }
 }
