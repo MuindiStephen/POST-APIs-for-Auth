@@ -43,20 +43,20 @@ class AuthViewModel : ViewModel() {
     val loginResult: StateFlow<Resource<LoginResponse>?> get() = _loginResult
 
     // Register Observable
-    private val _registerResult = MutableSharedFlow<Resource<RegisterResponse>>()
-    val registerResult: SharedFlow<Resource<RegisterResponse>>
+    private val _registerResult = MutableStateFlow<Resource<RegisterResponse>?>(null)
+    val registerResult: StateFlow<Resource<RegisterResponse>?>
         get() = _registerResult
 
 
     // Login User
     fun loginUser(email: String, password: String) = viewModelScope.launch {
-        val lResult = authUserRepository.userLogin(loginRequest = LoginRequest(email, password))
+        val lResult = authUserRepository.userLogin(LoginRequest(email , password))
         _loginResult.emit(lResult)
     }
 
     // Register User
     fun registerUser(email: String, name: String, password: String) = viewModelScope.launch {
-        _registerResult.emit(
+        _registerResult.value =
             authUserRepository.userRegister(
                 registerRequest = RegisterRequest(
                     email,
@@ -64,7 +64,6 @@ class AuthViewModel : ViewModel() {
                     password
                 )
             )
-        )
     }
 
 
@@ -87,6 +86,9 @@ class AuthViewModel : ViewModel() {
 
     fun login(email: String, password: String) = viewModelScope.launch {
         _loginResult.value = authUserRepository.userLogin(LoginRequest(email = email, password = password))
+    }
+    fun register(email: String, name: String, password: String) = viewModelScope.launch {
+        _registerResult.value = authUserRepository.userRegister(RegisterRequest(email = email, name = name, password = password))
     }
 
 }
