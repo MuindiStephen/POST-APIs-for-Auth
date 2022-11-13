@@ -6,6 +6,7 @@
 
 ### Test using postman or https://httpie.io/app
 
-### Demo
+### App preview
+
 - Coming soon
 
