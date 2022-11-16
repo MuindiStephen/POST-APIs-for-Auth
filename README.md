@@ -10,3 +10,8 @@
 
 - Coming soon
 
+
+## Fixed this
+- 'ClearText Traffic HTTP permission'
+
+
