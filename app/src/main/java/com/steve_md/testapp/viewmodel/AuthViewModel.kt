@@ -34,11 +34,12 @@ class AuthViewModel : ViewModel() {
     // use kotlin flows instead of live data
 
     /*
-    * Method 1*/
-    /**
-     * This is changed to a mutable state flow, since we're not sharing it
-     */
+    * Method 1
+    * This is changed to a mutable state flow, since we're not sharing it
+    */
+
     // Login Observable
+
     private val _loginResult = MutableStateFlow<Resource<LoginResponse>?>(null)
     val loginResult: StateFlow<Resource<LoginResponse>?> get() = _loginResult
 

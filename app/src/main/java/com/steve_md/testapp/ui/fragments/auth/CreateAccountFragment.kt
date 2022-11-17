@@ -62,8 +62,8 @@ class CreateAccountFragment : Fragment() {
                 when (it) {
                     is Resource.Success -> {
                         binding.progressBar.visibility = View.INVISIBLE
-                        toast("Registered Successfully, Please Login")
-                        navigateToLoginAccount()
+                        toast(" Registered Successfully, a verification code has been sent to your email.")
+                        navigateToVerificationAccount()
                     }
 
                     is Resource.Error -> {
@@ -83,6 +83,10 @@ class CreateAccountFragment : Fragment() {
 
     }
 
+    private fun navigateToLoginAccount() {
+        findNavController().navigate(R.id.action_createAccountFragment_to_loginAccountFragment)
+    }
+
     private fun registerUser() {
         registerViewModel.register(binding.enterEmail.text.toString(),binding.enterName.text.toString(), binding.enterPassword.text.toString())
     }
@@ -97,7 +101,7 @@ class CreateAccountFragment : Fragment() {
        }
     }
 
-    private fun navigateToLoginAccount() {
-        findNavController().navigate(R.id.action_createAccountFragment_to_loginAccountFragment)
+    private fun navigateToVerificationAccount() {
+        findNavController().navigate(R.id.action_createAccountFragment_to_emailVerificationFragment)
     }
 }
