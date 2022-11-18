@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModel
 
 
 class SplashViewModel: ViewModel () {
-    // using livedata observable
+
+    // Using Livedata observable
+
     private val _value: MutableLiveData<Boolean> = MutableLiveData<Boolean>()
     val value:LiveData<Boolean>
         get() = _value

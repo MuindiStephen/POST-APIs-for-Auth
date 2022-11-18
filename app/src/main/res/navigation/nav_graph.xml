@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_homeFragment_to_loginAccountFragment"
             app:destination="@id/loginAccountFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/createAccountFragment"
@@ -45,9 +48,6 @@
         <action
             android:id="@+id/action_createAccountFragment_to_loginAccountFragment"
             app:destination="@id/loginAccountFragment" />
-        <action
-            android:id="@+id/action_createAccountFragment_self"
-            app:destination="@id/createAccountFragment" />
         <action
             android:id="@+id/action_createAccountFragment_to_emailVerificationFragment"
             app:destination="@id/emailVerificationFragment" />
@@ -66,5 +66,11 @@
         <action
             android:id="@+id/action_emailVerificationFragment_to_loginAccountFragment"
             app:destination="@id/loginAccountFragment" />
+        <argument
+            android:name="email"
+            app:argType="string" />
     </fragment>
+    <action
+        android:id="@+id/action_global_createAccountFragment"
+        app:destination="@id/createAccountFragment" />
 </navigation>

@@ -21,6 +21,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SplashScreenFragment : Fragment() {
 
     private lateinit var binding: FragmentSplashScreenBinding
+    private val splashViewModel by viewModels<SplashViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,18 +31,18 @@ class SplashScreenFragment : Fragment() {
 
         binding = FragmentSplashScreenBinding.inflate(layoutInflater, container, false)
 
-//        viewModel.value.observe(viewLifecycleOwner, Observer {
-//            findNavController().navigate(R.id.action_splashScreenFragment_to_registerAccountFragment)
-//        })
-//
-//       viewModel.setValue()
+        splashViewModel.value.observe(viewLifecycleOwner, Observer {
+            findNavController().navigate(R.id.action_splashScreenFragment_to_loginAccountFragment)
+        })
+
+       splashViewModel.setValue()
 
 
-        Handler().postDelayed(
-            {
-                findNavController().navigate(R.id.action_splashScreenFragment_to_loginAccountFragment)
-            }, 2000
-        )
+//        Handler().postDelayed(
+//            {
+//                findNavController().navigate(R.id.action_splashScreenFragment_to_loginAccountFragment)
+//            }, 2000
+//        )
 
         return binding.root
     }

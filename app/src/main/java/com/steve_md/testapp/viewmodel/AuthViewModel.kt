@@ -10,7 +10,9 @@ import com.steve_md.testapp.data.requests.RegisterRequest
 import com.steve_md.testapp.data.responses.LoginResponse
 import com.steve_md.testapp.data.responses.RegisterResponse
 import com.steve_md.testapp.utils.Resource
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 
@@ -20,8 +22,7 @@ class AuthViewModel : ViewModel() {
      * Since we aren't using dependency injection the only thing that can be passed
      * in the viewModel constructor which will not throw any error is savedStateHandle or application
      */
-    private val authUserRepository: AuthUserRepository =
-        AuthUserRepositoryImpl(UserApiService.getApiClient())
+    private val authUserRepository: AuthUserRepository = AuthUserRepositoryImpl(UserApiService.getApiClient())
 
     /**
      * view model will communicate with repository
@@ -91,5 +92,7 @@ class AuthViewModel : ViewModel() {
     fun register(email: String, name: String, password: String) = viewModelScope.launch {
         _registerResult.value = authUserRepository.userRegister(RegisterRequest(email = email, name = name, password = password))
     }
+
+
 
 }

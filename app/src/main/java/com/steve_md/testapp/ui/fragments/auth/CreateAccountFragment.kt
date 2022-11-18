@@ -1,5 +1,6 @@
 package com.steve_md.testapp.ui.fragments.auth
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -53,8 +54,16 @@ class CreateAccountFragment : Fragment() {
         }
 
         binding.buttonSignUp.setOnClickListener {
-            if (isValidRegistrationDetails()) registerUser()
-            else toast("Unable to register")
+            if (isValidRegistrationDetails())  {
+                val direction = CreateAccountFragmentDirections.actionCreateAccountFragmentToEmailVerificationFragment(
+                    binding.enterEmail.text.toString()
+                )
+                findNavController().navigate(direction)
+                registerUser()
+            }
+            else {
+                toast("Unable to register")
+            }
         }
 
         lifecycleScope.launchWhenResumed {

@@ -1,5 +1,6 @@
 package com.steve_md.testapp.data.repositories
 
+import android.util.JsonToken
 import com.steve_md.testapp.data.requests.*
 import com.steve_md.testapp.data.responses.*
 import com.steve_md.testapp.utils.Resource
@@ -11,5 +12,7 @@ interface AuthUserRepository {
     suspend fun userLogin(loginRequest:LoginRequest) : Resource<LoginResponse>
 
     suspend fun userRegister(registerRequest: RegisterRequest) : Resource<RegisterResponse>
+
+
 
 }
