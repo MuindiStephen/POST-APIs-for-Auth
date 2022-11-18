@@ -5,5 +5,3 @@ object Constants {
     const val REGISTER_END_POINT = "/api/authaccount/registration"
     const val LOGIN_END_POINT = "/api/authaccount/login"
 }
-
-//https://shamba-app-onboarding.herokuapp.com/login

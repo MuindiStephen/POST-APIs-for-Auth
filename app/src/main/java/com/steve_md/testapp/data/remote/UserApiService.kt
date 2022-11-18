@@ -6,10 +6,8 @@ import com.steve_md.testapp.data.responses.LoginResponse
 import com.steve_md.testapp.data.responses.RegisterResponse
 import com.steve_md.testapp.utils.Constants.LOGIN_END_POINT
 import com.steve_md.testapp.utils.Constants.REGISTER_END_POINT
-import retrofit2.http.Body
-import retrofit2.http.Field
-import retrofit2.http.FormUrlEncoded
-import retrofit2.http.POST
+import retrofit2.Call
+import retrofit2.http.*
 
 
 /*
@@ -29,8 +27,15 @@ interface UserApiService {
     // Login or Sign In
     @POST(LOGIN_END_POINT)
     suspend fun loginUser(
-        @Body loginRequest: LoginRequest         // To directly control the request body
+        @Body loginRequest: LoginRequest        // To directly control the request body
     ) : LoginResponse
+
+
+
+//    @POST(VERIFY_END_POINT)
+//    suspend fun verifyUser(
+//        @Query("OTP") otp:String
+//    )
 
     companion object{
         fun getApiClient(): UserApiService {

@@ -1,7 +1,9 @@
 package com.steve_md.testapp.ui.fragments.main
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,10 +13,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.steve_md.testapp.R
 import com.steve_md.testapp.databinding.FragmentHomeBinding
+import com.steve_md.testapp.utils.SessionManager
 
 
 class HomeFragment : Fragment() {
 
+//    private lateinit var userPreferences: SessionManager
     private var _binding:FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -45,7 +49,7 @@ class HomeFragment : Fragment() {
     }
 
      private fun performLogout() = lifecycleScope.launchWhenStarted{
-          //Todo Clear token
+//          userPreferences.clearToken()
          findNavController().navigate(R.id.action_homeFragment_to_loginAccountFragment)
     }
 }

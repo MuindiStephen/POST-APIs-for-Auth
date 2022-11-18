@@ -1,13 +1,15 @@
 package com.steve_md.testapp.data.repositories
 
+import android.content.SharedPreferences
 import com.steve_md.testapp.data.remote.BaseRepositorySafeApiCall
 import com.steve_md.testapp.data.remote.UserApiService
 import com.steve_md.testapp.data.requests.LoginRequest
 import com.steve_md.testapp.data.requests.RegisterRequest
+import com.steve_md.testapp.utils.SessionManager
 
 
 class AuthUserRepositoryImpl(
-    private val apiService: UserApiService
+    private val apiService: UserApiService,
 ) : AuthUserRepository, BaseRepositorySafeApiCall () {
 
     // To implement the Interface [AuthUserRepository]
@@ -35,6 +37,10 @@ class AuthUserRepositoryImpl(
 
         apiService.registerUser(registerRequest)
     }
+
+
+
+
 
 
 }

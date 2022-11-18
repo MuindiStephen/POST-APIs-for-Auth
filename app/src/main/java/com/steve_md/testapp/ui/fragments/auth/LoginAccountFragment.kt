@@ -11,8 +11,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.steve_md.testapp.R
+import com.steve_md.testapp.data.responses.LoginResponse
 import com.steve_md.testapp.databinding.FragmentLoginAccountBinding
 import com.steve_md.testapp.utils.Resource
+import com.steve_md.testapp.utils.SessionManager
 import com.steve_md.testapp.utils.toast
 import com.steve_md.testapp.viewmodel.AuthViewModel
 import kotlinx.coroutines.flow.collectLatest
@@ -26,9 +28,16 @@ class LoginAccountFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: AuthViewModel by viewModels()
+   // Same as => private val viewModel by viewModels<AuthViewModel>()
+
+//    private lateinit var  userRefs : SessionManager
 //    private val viewModel = activity?.let {
 //        ViewModelProvider(it)
 //    }?.get(AuthViewModel::class.java)
+
+    // Calling Session Manager
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -42,6 +51,7 @@ class LoginAccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         binding.dontHaveAccountSignUpTextView.setOnClickListener {
             navigateToCreateAccount()
@@ -69,6 +79,9 @@ class LoginAccountFragment : Fragment() {
 
                             // if available then login the user successfully.
                             if (it !=null) {
+                                // save User token or id
+//                                userRefs.saveAuthToken(userId.toString())toString
+
                                 toast("Successfully Logged In")
                                 navigateToHome()
                             } else {
