@@ -11,11 +11,14 @@ import androidx.lifecycle.*
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.steve_md.testapp.R
+import com.steve_md.testapp.data.remote.UserApiService
+import com.steve_md.testapp.data.repositories.AuthUserRepositoryImpl
 import com.steve_md.testapp.databinding.FragmentCreateAccountBinding
 import com.steve_md.testapp.utils.Resource
 import com.steve_md.testapp.utils.hideKeyboard
 import com.steve_md.testapp.utils.toast
 import com.steve_md.testapp.viewmodel.AuthViewModel
+import com.steve_md.testapp.viewmodel.AuthViewModelFactory
 import kotlinx.coroutines.flow.collectLatest
 
 
@@ -26,7 +29,7 @@ class CreateAccountFragment : Fragment() {
     private val binding get() = _binding!!
 
     // View Model
-    private val registerViewModel: AuthViewModel by viewModels()
+   private val registerViewModel: AuthViewModel by viewModels()
 
 //    private val registerViewModel = activity?.let {
 //        ViewModelProvider(it)
@@ -48,6 +51,14 @@ class CreateAccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        // Using factory to create View model instance and pass arguments inside it
+        val viewModelFactory = AuthViewModelFactory(authUserRepository = AuthUserRepositoryImpl(
+            UserApiService.getApiClient()))
+
+        val registerViewModel = ViewModelProvider(
+            requireActivity()
+        )[AuthViewModel::class.java]
 
         binding.alreadyHaveAccountTextView.setOnClickListener {
             navigateToLoginAccount()

@@ -16,13 +16,15 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
 
-class AuthViewModel : ViewModel() {
+class AuthViewModel(
+    private val authUserRepository: AuthUserRepositoryImpl
+) : ViewModel() {
 
     /**
      * Since we aren't using dependency injection the only thing that can be passed
      * in the viewModel constructor which will not throw any error is savedStateHandle or application
      */
-    private val authUserRepository: AuthUserRepository = AuthUserRepositoryImpl(UserApiService.getApiClient())
+   //  private val authUserRepository: AuthUserRepository = AuthUserRepositoryImpl(UserApiService.getApiClient())
 
     /**
      * view model will communicate with repository

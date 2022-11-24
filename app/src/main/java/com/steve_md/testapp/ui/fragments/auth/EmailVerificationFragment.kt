@@ -42,6 +42,7 @@ class EmailVerificationFragment : Fragment() {
             verifyEmailCode()
         }
 
+        // Receive email string from Create account Fragment
         email = args.email
         binding.emailSentVerificationCode.text = email
 
